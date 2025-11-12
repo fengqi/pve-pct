@@ -22,7 +22,7 @@ func Init() *Config {
 		Addr:       os.Getenv("PVE_ADDR"),
 		Port:       22,
 		User:       "root",
-		PrivateKey: "~/.ssh/id_ed25519",
+		PrivateKey: "",
 		Password:   "",
 	}
 
@@ -42,17 +42,14 @@ func Init() *Config {
 		c.PrivateKey = val
 	}
 
-	if strings.HasPrefix(c.PrivateKey, "~") {
-		c.PrivateKey = filepath.Join(os.Getenv("HOME"), c.PrivateKey[1:])
-	}
-
-	if val, err := filepath.Abs(c.PrivateKey); err == nil {
-		c.PrivateKey = val
-	}
-
-	if fi, err := os.Stat(c.PrivateKey); err == nil && !fi.IsDir() {
-		if val, err := os.ReadFile(c.PrivateKey); err == nil {
-			c.PrivateKey = string(val)
+	if c.PrivateKey == "" {
+		if keyFile, ok := os.LookupEnv("PVE_PRIVATE_KEY_FILE"); ok {
+			if strings.HasPrefix(keyFile, "~") {
+				keyFile = filepath.Join(os.Getenv("HOME"), keyFile[1:])
+			}
+			if val, err := os.ReadFile(keyFile); err == nil {
+				c.PrivateKey = string(val)
+			}
 		}
 	}
 

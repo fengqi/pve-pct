@@ -39,11 +39,11 @@ func VerifyHost(host string, remote net.Addr, key ssh.PublicKey) error {
 	}
 
 	// Ask user to check if he trust the host public key.
-	if askIsHostTrusted(host, key) == false {
+	/*if askIsHostTrusted(host, key) == false {
 
 		// Make sure to return error on non trusted keys.
 		return errors.New("you typed no, aborted!")
-	}
+	}*/
 
 	// Add the new host to known hosts file.
 	return AddKnownHost(host, remote, key, "")
