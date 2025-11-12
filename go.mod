@@ -1,6 +1,6 @@
 module github.com/fengqi/pve-pct
 
-go 1.24
+go 1.24.0
 
 require (
 	github.com/pkg/sftp v1.13.10

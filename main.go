@@ -9,11 +9,8 @@ import (
 	"github.com/fengqi/pve-pct/config"
 )
 
-func init() {
-	flag.Parse()
-}
-
 func main() {
+	flag.Parse()
 	c := config.Init()
 	s := client.Init(c)
 	code, out := s.Exec(flag.Args())
